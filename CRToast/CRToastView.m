@@ -10,6 +10,9 @@
 @interface CRToastView ()
 @end
 
+static CGFloat const kCRStandardStatusBarHeight = 20;
+static CGFloat const kCRiPhoneXStatusBarHeightOffset = 24;
+
 static CGFloat const kCRStatusBarViewNoImageLeftContentInset = 10;
 static CGFloat const kCRStatusBarViewNoImageRightContentInset = 10;
 
@@ -133,6 +136,10 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
     
     CGFloat statusBarYOffset = self.toast.displayUnderStatusBar ? (CRGetStatusBarHeight()+CRStatusBarViewUnderStatusBarYOffsetAdjustment) : 0;
     contentFrame.size.height = CGRectGetHeight(contentFrame) - statusBarYOffset;
+    /// Bug fix to account for the iPhone X increased status bar height
+    if (CRGetStatusBarHeight() > kCRStandardStatusBarHeight) {
+        statusBarYOffset += kCRiPhoneXStatusBarHeightOffset;
+    }
     
     self.backgroundView.frame = self.bounds;
     
